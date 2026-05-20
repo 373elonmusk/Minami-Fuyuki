@@ -23,13 +23,16 @@ def register_handlers(app: Client):
 # Start Message
 # ==========================================================
     async def send_start_menu(message, user):
-        text = f"""Hey there, {user}! 👋
-
-My name is <b>Minami Fuyuki</b> — I'm here to help you manage your groups like a pro! Use /help to find out how to use me to my full potential.
-
-Join my <a href="https://t.me/shinchan_bots">news channel</a> to get information on all the latest updates.
-
-Check /privacy to view the privacy policy, and interact with your data."""
+        text = (
+            f"Hey there, {user}! 👋\n"
+            "\n"
+            "My name is <b>Minami Fuyuki</b> — I'm here to help you manage your groups like a pro! "
+            "Use /help to find out how to use me to my full potential.\n"
+            "\n"
+            'Join my <a href="https://t.me/shinchan_bots">news channel</a> to get information on all the latest updates.\n'
+            "\n"
+            "Check /privacy to view the privacy policy, and interact with your data."
+        )
 
         buttons = InlineKeyboardMarkup([
             [
@@ -52,7 +55,7 @@ Check /privacy to view the privacy policy, and interact with your data."""
             await message.reply_photo(START_IMAGE, caption=text, reply_markup=buttons, parse_mode="html")
         else:
             # If callback, edit the same message
-            media = InputMediaPhoto(media=START_IMAGE, caption=text)
+            media = InputMediaPhoto(media=START_IMAGE, caption=text, parse_mode="html")
             await message.edit_media(media=media, reply_markup=buttons)
 
 # ==========================================================
@@ -68,14 +71,14 @@ Check /privacy to view the privacy policy, and interact with your data."""
 # Help Menu Message
 # ==========================================================
     async def send_help_menu(message):
-        text = """
-╔══════════════════╗
-     Help Menu
-╚══════════════════╝
-
-Choose a category below to explore commands:
-─────────────────────────────
-"""
+        text = (
+            "╔══════════════════╗\n"
+            "     Help Menu\n"
+            "╚══════════════════╝\n"
+            "\n"
+            "Choose a category below to explore commands:\n"
+            "─────────────────────────────"
+        )
         buttons = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("⌂ Greetings ⌂", callback_data="greetings"),
@@ -112,26 +115,26 @@ Choose a category below to explore commands:
 # ==========================================================
     @app.on_callback_query(filters.regex("greetings"))
     async def greetings_callback(client, callback_query):
-        text = """
-╔══════════════════╗
-    ⚙ Welcome System
-╚══════════════════╝
-
-Commands to Manage Welcome Messages:
-
-- /setwelcome <text> : Set a custom welcome message for your group
-- /welcome on        : Enable the welcome messages
-- /welcome off       : Disable the welcome messages
-
-Supported Placeholders:
-- {username} : Telegram username
-- {first_name} : User's first name
-- {id} : User ID
-- {mention} : Mention user in message
-
-Example:
- /setwelcome Hello {first_name}! Welcome to {title}!
-"""
+        text = (
+            "╔══════════════════╗\n"
+            "    ⚙ Welcome System\n"
+            "╚══════════════════╝\n"
+            "\n"
+            "Commands to Manage Welcome Messages:\n"
+            "\n"
+            "- /setwelcome <text> : Set a custom welcome message for your group\n"
+            "- /welcome on        : Enable the welcome messages\n"
+            "- /welcome off       : Disable the welcome messages\n"
+            "\n"
+            "Supported Placeholders:\n"
+            "- {username} : Telegram username\n"
+            "- {first_name} : User's first name\n"
+            "- {id} : User ID\n"
+            "- {mention} : Mention user in message\n"
+            "\n"
+            "Example:\n"
+            " /setwelcome Hello {first_name}! Welcome to {title}!"
+        )
         buttons = InlineKeyboardMarkup([
             [InlineKeyboardButton("🔙 Back", callback_data="help")]
         ])
@@ -144,28 +147,28 @@ Example:
 # ==========================================================
     @app.on_callback_query(filters.regex("locks"))
     async def locks_callback(client, callback_query):
-        text = """
-╔══════════════════╗
-     ⚙ Locks System
-╚══════════════════╝
-
-Commands to Manage Locks:
-
-- /lock <type>    : Enable a lock for the group
-- /unlock <type>  : Disable a lock for the group
-- /locks          : Show currently active locks
-
-Available Lock Types:
-- url       : Block links
-- sticker   : Block stickers
-- media     : Block photos/videos/gifs
-- username  : Block messages with @username mentions
-- language  : Block non-English messages
-
-Example:
- /lock url       : Blocks any messages containing links
- /unlock sticker : Allows stickers again
-"""
+        text = (
+            "╔══════════════════╗\n"
+            "     ⚙ Locks System\n"
+            "╚══════════════════╝\n"
+            "\n"
+            "Commands to Manage Locks:\n"
+            "\n"
+            "- /lock <type>    : Enable a lock for the group\n"
+            "- /unlock <type>  : Disable a lock for the group\n"
+            "- /locks          : Show currently active locks\n"
+            "\n"
+            "Available Lock Types:\n"
+            "- url       : Block links\n"
+            "- sticker   : Block stickers\n"
+            "- media     : Block photos/videos/gifs\n"
+            "- username  : Block messages with @username mentions\n"
+            "- language  : Block non-English messages\n"
+            "\n"
+            "Example:\n"
+            " /lock url       : Blocks any messages containing links\n"
+            " /unlock sticker : Allows stickers again"
+        )
         buttons = InlineKeyboardMarkup([
             [InlineKeyboardButton("🔙 Back", callback_data="help")]
         ])
@@ -179,41 +182,40 @@ Example:
     @app.on_callback_query(filters.regex("moderation"))
     async def info_callback(client, callback_query):
         try:
-            text = """
-╔══════════════════╗
-      ⚙️ Moderation System
-╚══════════════════╝
-
-Manage your group easily with these tools:
-
-¤ /kick <user> — Remove a user  
-¤ /ban <user> — Ban permanently  
-¤ /unban <user> — Lift ban  
-¤ /mute <user> — Disable messages  
-¤ /unmute <user> — Allow messages again  
-¤ /warn <user> — Add warning (3 = mute)  
-¤ /warns <user> — View warnings  
-¤ /resetwarns <user> — Clear all warnings  
-¤ /promote <user> — make admin
-¤ /demote <user> — remove from admin  
-
-💡 Example:
-Reply to a user or type  
-<code>/ban @username</code>
-
-"""
+            text = (
+                "╔══════════════════╗\n"
+                "      ⚙️ Moderation System\n"
+                "╚══════════════════╝\n"
+                "\n"
+                "Manage your group easily with these tools:\n"
+                "\n"
+                "¤ /kick <user> — Remove a user\n"
+                "¤ /ban <user> — Ban permanently\n"
+                "¤ /unban <user> — Lift ban\n"
+                "¤ /mute <user> — Disable messages\n"
+                "¤ /unmute <user> — Allow messages again\n"
+                "¤ /warn <user> — Add warning (3 = mute)\n"
+                "¤ /warns <user> — View warnings\n"
+                "¤ /resetwarns <user> — Clear all warnings\n"
+                "¤ /promote <user> — make admin\n"
+                "¤ /demote <user> — remove from admin\n"
+                "\n"
+                "💡 Example:\n"
+                "Reply to a user or type\n"
+                "<code>/ban @username</code>"
+            )
             buttons = InlineKeyboardMarkup([
                 [InlineKeyboardButton("🔙 Back", callback_data="help")]
             ])
-    
-            media = InputMediaPhoto(media=START_IMAGE, caption=text)
+
+            media = InputMediaPhoto(media=START_IMAGE, caption=text, parse_mode="html")
             await callback_query.message.edit_media(media=media, reply_markup=buttons)
             await callback_query.answer()
-    
+
         except Exception as e:
             print(f"Error in info_callback: {e}")
             await callback_query.answer("❌ Something went wrong.", show_alert=True)
-    
+
 
 # ==========================================================
 # Broadcast Command
@@ -257,4 +259,3 @@ Reply to a user or type
 
         users = await db.get_all_users()
         return await message.reply_text(f"💡 Total users: {len(users)}")
-        
