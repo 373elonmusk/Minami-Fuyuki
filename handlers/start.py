@@ -23,30 +23,22 @@ def register_handlers(app: Client):
 # Start Message
 # ==========================================================
     async def send_start_menu(message, user):
-        text = f"""
+        text = f"""Hey there, {user}! 👋
 
-   ✨ Hello {user}! ✨
+My name is <b>Minami Fuyuki</b> — I'm here to help you manage your groups like a pro! Use /help to find out how to use me to my full potential.
 
-👋 I am Nomad 🤖 
+Join my <a href="https://t.me/shinchan_bots">news channel</a> to get information on all the latest updates.
 
-Highlights:
-─────────────────────────────
-- Smart Anti-Spam & Link Shield
-- Adaptive Lock System (URLs, Media, Language & more)
-- Modular & Scalable Protection
-- Sleek UI with Inline Controls
-
-» More New Features coming soon ...
-"""
+Check /privacy to view the privacy policy, and interact with your data."""
 
         buttons = InlineKeyboardMarkup([
-            [InlineKeyboardButton("⚒️ Add to Group ⚒️", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
             [
-                InlineKeyboardButton("⌂ Support ⌂", url=SUPPORT_GROUP),
-                InlineKeyboardButton("⌂ Update ⌂", url=UPDATE_CHANNEL),
+                InlineKeyboardButton("➕ Add me to your chat", url=f"https://t.me/{BOT_USERNAME}?startgroup=true"),
+                InlineKeyboardButton("⭐ Support", url=SUPPORT_GROUP),
             ],
             [
                 InlineKeyboardButton("📢 News Channel", url="https://t.me/shinchan_bots"),
+                InlineKeyboardButton("⌂ Update ⌂", url=UPDATE_CHANNEL),
             ],
             [
                 InlineKeyboardButton("※ ŎŴɳēŔ ※", url=f"tg://user?id={OWNER_ID}"),
@@ -57,7 +49,7 @@ Highlights:
 
         # If /start command, send a new photo
         if message.text:
-            await message.reply_photo(START_IMAGE, caption=text, reply_markup=buttons)
+            await message.reply_photo(START_IMAGE, caption=text, reply_markup=buttons, parse_mode="html")
         else:
             # If callback, edit the same message
             media = InputMediaPhoto(media=START_IMAGE, caption=text)
@@ -265,3 +257,4 @@ Reply to a user or type
 
         users = await db.get_all_users()
         return await message.reply_text(f"💡 Total users: {len(users)}")
+        
